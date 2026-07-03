@@ -1,62 +1,34 @@
-# Base de Datos - Sistema Médico
+# StreamHub - Base de Datos No Relacional
 
-Base de datos relacional para la gestión de citas y diagnósticos médicos. Incluye el diseño en MER y DER.
+Este proyecto contiene la estructura inicial y la automatización de la base de datos para la plataforma **StreamHub** corriendo en un entorno local.
 
----
+## Estructura del Proyecto
 
-## Tablas
-
-### MEDICOS
-| Campo | Tipo |
-|---|---|
-| `id_medico` PK | Identificador único |
-| `nombre_medico` | Nombre |
-| `apellido_medico` | Apellido |
-| `especialidad` | Especialidad médica |
-| `email_medico` U | Correo electrónico |
-
-### PACIENTES
-| Campo | Tipo |
-|---|---|
-| `id_paciente` PK | Identificador único |
-| `nombre_paciente` | Nombre |
-| `apellido_paciente` | Apellido |
-| `email_paciente` U | Correo electrónico |
-| `documento` U | Documento de identidad |
-
-### CITAS
-| Campo | Tipo |
-|---|---|
-| `id_cita` PK | Identificador único |
-| `id_paciente` FK | Referencia a PACIENTES |
-| `id_medico` FK | Referencia a MEDICOS |
-| `fecha` | Fecha de la cita |
-| `lugar` | Lugar de la cita |
-
-### DIAGNOSTICO
-| Campo | Tipo |
-|---|---|
-| `id_diagnostico` PK | Identificador único |
-| `id_cita` FK U | Referencia a CITAS |
-| `descripcion` | Descripción del diagnóstico |
+La carpeta del proyecto consta únicamente de un archivo estructurado:
+└── script.js      # Contiene la inicialización de datos, consultas, índices y agregaciones.
 
 ---
 
-## Relaciones y Cardinalidades
+## Tecnologías Utilizadas
 
-| Relación | Cardinalidad | Descripción |
-|---|---|---|
-| PACIENTES → CITAS | 1 : M | Un paciente puede tener muchas citas |
-| MEDICOS → CITAS | 1 : M | Un médico puede atender muchas citas |
-| CITAS → DIAGNOSTICO | 1 : 1 | Cada cita genera un único diagnóstico |
-
-> La relación 1:1 entre CITAS y DIAGNOSTICO se refuerza con el campo `id_cita` como FK UNIQUE en la tabla DIAGNOSTICO.
+* **MongoDB Compass:** Interfaz gráfica oficial utilizada para visualizar, auditar y revisar de forma intuitiva las colecciones (`usuarios`, `contenido`, `valoraciones`) y sus respectivos índices sin necesidad de interactuar únicamente con código.
+* **MongoDB Shell (mongosh):** Consola de comandos donde se procesa e interpreta el script. MongoDB utiliza un modelo de "creación perezosa" (lazy creation), lo que significa que la base de datos y sus tablas no relacionales se generan dinámicamente en el almacenamiento local en el milisegundo exacto en que `mongosh` ejecuta la primera inserción de datos.
 
 ---
 
-## Archivos
+## Instrucciones de Ejecución
 
-| Archivo | Descripción |
-|---|---|
-| `MER.jpg` | Modelo Entidad-Relación |
-| `DER.jpg` | Diagrama Entidad-Relación físico |
+Puedes correr el script utilizando cualquiera de los siguientes dos métodos, dependiendo de la disponibilidad de la interfaz gráfica:
+
+### Opción 1: Desde la terminal integrada de MongoDB Compass
+1. Abre **MongoDB Compass** y conéctate al servidor local (`mongodb://localhost:27017`).
+2. Despliega la consola **_mongosh** ubicada en la barra inferior de la interfaz.
+3. Copia el contenido completo de `script.js`, pégalo en la casilla negra y presiona `Enter`.
+4. Haz clic en el botón de actualización (*refresh*) en el panel izquierdo de Compass para ver aparecer la base de datos y sus datos de forma visual.
+
+### Opción 2: Desde la Terminal del Sistema (Consola Pura)
+Si la interfaz gráfica presenta problemas de carga, la consola permite una ejecución directa y automatizada:
+1. Abre la terminal de tu sistema operativo (CMD o PowerShell) directamente en la carpeta donde se encuentra el archivo `script.js`.
+2. Ejecuta el siguiente comando para que el motor procese el archivo:
+   ```bash
+   mongosh script.js
